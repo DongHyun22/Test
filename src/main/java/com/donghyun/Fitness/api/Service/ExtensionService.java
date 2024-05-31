@@ -1,6 +1,7 @@
 package com.donghyun.Fitness.api.Service;
 
 import com.donghyun.Fitness.api.Controller.request.CreateCustomExtensionRequest;
+import com.donghyun.Fitness.api.Controller.request.RemoveCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.response.CustomExtensionResponse;
 import com.donghyun.Fitness.api.Controller.response.DefaultExtensionResponse;
 import com.donghyun.Fitness.api.Controller.response.ExtensionsResponse;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -40,5 +42,11 @@ public class ExtensionService {
 
     public void createCustomExtension(CreateCustomExtensionRequest request) {
         customExtensionRepository.save(request.toEntity());
+    }
+
+    public void removeCustomExtension(RemoveCustomExtensionRequest request) {
+        CustomExtension customExtension = customExtensionRepository.findById(request.getCustomExtensionId())
+                .orElseThrow(() -> new NoSuchElementException());
+        customExtensionRepository.delete(customExtension);
     }
 }

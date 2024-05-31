@@ -1,7 +1,7 @@
 package com.donghyun.Fitness.api.Controller;
 
 import com.donghyun.Fitness.api.Controller.request.CreateCustomExtensionRequest;
-import com.donghyun.Fitness.api.Controller.request.DeleteCustomExtensionRequest;
+import com.donghyun.Fitness.api.Controller.request.RemoveCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.response.ExtensionsResponse;
 import com.donghyun.Fitness.api.Service.ExtensionService;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,8 @@ public class ExtensionController {
      * 커스텀 확장자 삭제
      */
     @PostMapping("/delete")
-    public String removeCustomExtension(@RequestBody DeleteCustomExtensionRequest request) {
+    public String removeCustomExtension(@RequestBody RemoveCustomExtensionRequest request) {
+        extensionService.removeCustomExtension(request);
         return "완료";
     }
 }
