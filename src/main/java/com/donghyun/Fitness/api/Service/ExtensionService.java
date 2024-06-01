@@ -10,6 +10,7 @@ import com.donghyun.Fitness.api.Repository.CustomExtensionRepository;
 import com.donghyun.Fitness.api.Repository.DefaultExtensionRepository;
 import com.donghyun.Fitness.domain.CustomExtension;
 import com.donghyun.Fitness.domain.DefaultExtension;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,18 @@ public class ExtensionService {
     }
 
     public void createCustomExtension(CreateCustomExtensionRequest request) {
-        log.debug("name : {}", request.getCustomExtensionName());
-        customExtensionRepository.save(request.toEntity());
+        // 최대 개수 200이상
+        if(customExtensionRepository.count() >= 200) {
+            throw new RuntimeException("커스텀 확장자는 최대 200개 까지 추가 가능합니다.");
+        }
+
+        if(customExtensionRepository.existsByName(request.getCustomExtensionName())) {
+            throw new RuntimeException("이미 존재하는 확장자 입니다.");
+        }
+
+        CustomExtension customExtension = request.toEntity();
+
+        customExtensionRepository.save(customExtension);
     }
 
     public void removeCustomExtension(RemoveCustomExtensionRequest request) {

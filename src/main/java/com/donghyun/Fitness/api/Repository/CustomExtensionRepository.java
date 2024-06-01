@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomExtensionRepository extends JpaRepository<CustomExtension, Long> {
+    boolean existsByName(String customExtensionName);
 }
