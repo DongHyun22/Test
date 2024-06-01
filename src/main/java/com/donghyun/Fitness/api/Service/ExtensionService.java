@@ -2,6 +2,7 @@ package com.donghyun.Fitness.api.Service;
 
 import com.donghyun.Fitness.api.Controller.request.CreateCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.request.RemoveCustomExtensionRequest;
+import com.donghyun.Fitness.api.Controller.request.SelectDefaultExtensionRequest;
 import com.donghyun.Fitness.api.Controller.response.CustomExtensionResponse;
 import com.donghyun.Fitness.api.Controller.response.DefaultExtensionResponse;
 import com.donghyun.Fitness.api.Controller.response.ExtensionsResponse;
@@ -49,5 +50,12 @@ public class ExtensionService {
         CustomExtension customExtension = customExtensionRepository.findById(request.getCustomExtensionId())
                 .orElseThrow(() -> new NoSuchElementException());
         customExtensionRepository.delete(customExtension);
+    }
+
+    public void selectDefaultExtension(SelectDefaultExtensionRequest request) {
+        DefaultExtension defaultExtension = defaultExtensionRepository.findById(request.getDefaultExtensionId())
+                .orElseThrow(() -> new NoSuchElementException());
+        defaultExtension.select(request.getState());
+        defaultExtensionRepository.save(defaultExtension);
     }
 }

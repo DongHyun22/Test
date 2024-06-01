@@ -30,4 +30,14 @@ public class DefaultExtension {
         this.name = name;
         this.state = state;
     }
+
+    /**
+     *  비즈니스 로직
+     */
+    public void select(State state) {
+        this.state = state;
+    }
+
+
+
 }
