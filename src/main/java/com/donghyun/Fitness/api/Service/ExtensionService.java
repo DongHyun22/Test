@@ -41,6 +41,7 @@ public class ExtensionService {
     }
 
     public void createCustomExtension(CreateCustomExtensionRequest request) {
+        log.debug("name : {}", request.getCustomExtensionName());
         customExtensionRepository.save(request.toEntity());
     }
 

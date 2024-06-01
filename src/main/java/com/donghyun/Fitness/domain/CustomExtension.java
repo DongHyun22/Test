@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +14,10 @@ import java.time.LocalDateTime;
 @Slf4j
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class CustomExtension {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "custom_extension_id")
     private Long id;
 
