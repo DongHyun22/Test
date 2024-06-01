@@ -13,6 +13,7 @@ import com.donghyun.Fitness.domain.DefaultExtension;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ExtensionService {
              defaultExtensionResponseList.add(DefaultExtensionResponse.of(d));
         }
 
-        List<CustomExtension> list1 = customExtensionRepository.findAll();
+        List<CustomExtension> list1 = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
         List<CustomExtensionResponse> customExtensionResponseList = new ArrayList<>();
         for(CustomExtension d : list1){
             customExtensionResponseList.add(CustomExtensionResponse.of(d));

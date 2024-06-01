@@ -19,7 +19,7 @@ public class ExtensionController {
     private final ExtensionService extensionService;
 
     /**
-     * 고정 확장자와 커스텀 확장자 전체 조회 ( 고정 확장자 ID순 오름차순 정렬, 커스텀 확장자 최신 순 정렬 )
+     * 고정 확장자와 커스텀 확장자 전체 조회 ( 커스텀 확장자 최신 순 정렬 )
      * @return 고정 확장자 리스트와 커스텀 확장자 리스트
      */
 
