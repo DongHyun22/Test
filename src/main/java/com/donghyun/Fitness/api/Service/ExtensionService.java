@@ -27,20 +27,38 @@ public class ExtensionService {
     private final DefaultExtensionRepository defaultExtensionRepository;
     private final CustomExtensionRepository customExtensionRepository;
 
-    public ExtensionsResponse getExtensions() {
+//    public ExtensionsResponse getExtensions() {
+//        List<DefaultExtension> list = defaultExtensionRepository.findAll();
+//        List<DefaultExtensionResponse> defaultExtensionResponseList = new ArrayList<>();
+//        for(DefaultExtension d : list){
+//             defaultExtensionResponseList.add(DefaultExtensionResponse.of(d));
+//        }
+//
+//        List<CustomExtension> list1 = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
+//        List<CustomExtensionResponse> customExtensionResponseList = new ArrayList<>();
+//        for(CustomExtension d : list1){
+//            customExtensionResponseList.add(CustomExtensionResponse.of(d));
+//        }
+//
+//        return new ExtensionsResponse(defaultExtensionResponseList, customExtensionResponseList);
+//    }
+
+    public List<DefaultExtensionResponse> getDefaultExtensions() {
         List<DefaultExtension> list = defaultExtensionRepository.findAll();
         List<DefaultExtensionResponse> defaultExtensionResponseList = new ArrayList<>();
         for(DefaultExtension d : list){
-             defaultExtensionResponseList.add(DefaultExtensionResponse.of(d));
+            defaultExtensionResponseList.add(DefaultExtensionResponse.of(d));
         }
+        return defaultExtensionResponseList;
+    }
 
-        List<CustomExtension> list1 = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
+    public List<CustomExtensionResponse> getCustomExtensions() {
+        List<CustomExtension> list = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
         List<CustomExtensionResponse> customExtensionResponseList = new ArrayList<>();
-        for(CustomExtension d : list1){
+        for(CustomExtension d : list){
             customExtensionResponseList.add(CustomExtensionResponse.of(d));
         }
-
-        return new ExtensionsResponse(defaultExtensionResponseList, customExtensionResponseList);
+        return customExtensionResponseList;
     }
 
     public void createCustomExtension(CreateCustomExtensionRequest request) {
