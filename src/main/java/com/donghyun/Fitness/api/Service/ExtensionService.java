@@ -5,12 +5,10 @@ import com.donghyun.Fitness.api.Controller.request.RemoveCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.request.SelectDefaultExtensionRequest;
 import com.donghyun.Fitness.api.Controller.response.CustomExtensionResponse;
 import com.donghyun.Fitness.api.Controller.response.DefaultExtensionResponse;
-import com.donghyun.Fitness.api.Controller.response.ExtensionsResponse;
 import com.donghyun.Fitness.api.Repository.CustomExtensionRepository;
 import com.donghyun.Fitness.api.Repository.DefaultExtensionRepository;
 import com.donghyun.Fitness.domain.CustomExtension;
 import com.donghyun.Fitness.domain.DefaultExtension;
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -46,7 +44,7 @@ public class ExtensionService {
     public List<DefaultExtensionResponse> getDefaultExtensions() {
         List<DefaultExtension> list = defaultExtensionRepository.findAll();
         List<DefaultExtensionResponse> defaultExtensionResponseList = new ArrayList<>();
-        for(DefaultExtension d : list){
+        for (DefaultExtension d : list) {
             defaultExtensionResponseList.add(DefaultExtensionResponse.of(d));
         }
         return defaultExtensionResponseList;
@@ -55,7 +53,7 @@ public class ExtensionService {
     public List<CustomExtensionResponse> getCustomExtensions() {
         List<CustomExtension> list = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
         List<CustomExtensionResponse> customExtensionResponseList = new ArrayList<>();
-        for(CustomExtension d : list){
+        for (CustomExtension d : list) {
             customExtensionResponseList.add(CustomExtensionResponse.of(d));
         }
         return customExtensionResponseList;
@@ -68,12 +66,12 @@ public class ExtensionService {
 //        }
 
         // 최대 개수 200이상
-        if(customExtensionRepository.count() >= 200) {
+        if (customExtensionRepository.count() >= 200) {
             throw new RuntimeException("커스텀 확장자는 최대 200개 까지 추가 가능합니다.");
         }
 
         // 중복 체크
-        if(customExtensionRepository.existsByName(request.getCustomExtensionName())) {
+        if (customExtensionRepository.existsByName(request.getCustomExtensionName())) {
             throw new RuntimeException("이미 존재하는 확장자 입니다.");
         }
 

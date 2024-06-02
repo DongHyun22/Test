@@ -32,12 +32,11 @@ public class DefaultExtension {
     }
 
     /**
-     *  비즈니스 로직
+     * 비즈니스 로직
      */
     public void select(State state) {
         this.state = state;
     }
-
 
 
 }
