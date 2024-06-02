@@ -41,6 +41,9 @@ public class ExtensionService {
 //        return new ExtensionsResponse(defaultExtensionResponseList, customExtensionResponseList);
 //    }
 
+    /**
+     * 고정 확장자 전체 조회
+     */
     public List<DefaultExtensionResponse> getDefaultExtensions() {
         List<DefaultExtension> list = defaultExtensionRepository.findAll();
         List<DefaultExtensionResponse> defaultExtensionResponseList = new ArrayList<>();
@@ -50,6 +53,20 @@ public class ExtensionService {
         return defaultExtensionResponseList;
     }
 
+    /**
+     * 고정 확장자 선택 시 상태 변경
+     */
+    public void selectDefaultExtension(SelectDefaultExtensionRequest request) {
+        DefaultExtension defaultExtension = defaultExtensionRepository.findById(request.getDefaultExtensionId())
+                .orElseThrow(() -> new NoSuchElementException());
+        defaultExtension.select(request.getState());
+        defaultExtensionRepository.save(defaultExtension);
+    }
+
+
+    /**
+     * 커스텀 확장자 전체 조회
+     */
     public List<CustomExtensionResponse> getCustomExtensions() {
         List<CustomExtension> list = customExtensionRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
         List<CustomExtensionResponse> customExtensionResponseList = new ArrayList<>();
@@ -59,12 +76,10 @@ public class ExtensionService {
         return customExtensionResponseList;
     }
 
+    /**
+     * 커스텀 확장자 추가
+     */
     public void createCustomExtension(CreateCustomExtensionRequest request) {
-        // 값이 없을 때
-//        if(request.getCustomExtensionName().equals("")) {
-//            throw new RuntimeException("확장자를 입력해 주세요");
-//        }
-
         // 최대 개수 200이상
         if (customExtensionRepository.count() >= 200) {
             throw new RuntimeException("커스텀 확장자는 최대 200개 까지 추가 가능합니다.");
@@ -80,16 +95,12 @@ public class ExtensionService {
         customExtensionRepository.save(customExtension);
     }
 
+    /**
+     * 커스텀 확장자 삭제
+     */
     public void removeCustomExtension(RemoveCustomExtensionRequest request) {
         CustomExtension customExtension = customExtensionRepository.findById(request.getCustomExtensionId())
                 .orElseThrow(() -> new NoSuchElementException());
         customExtensionRepository.delete(customExtension);
-    }
-
-    public void selectDefaultExtension(SelectDefaultExtensionRequest request) {
-        DefaultExtension defaultExtension = defaultExtensionRepository.findById(request.getDefaultExtensionId())
-                .orElseThrow(() -> new NoSuchElementException());
-        defaultExtension.select(request.getState());
-        defaultExtensionRepository.save(defaultExtension);
     }
 }

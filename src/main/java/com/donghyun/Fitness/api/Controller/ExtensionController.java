@@ -26,13 +26,6 @@ public class ExtensionController {
      *
      * @return 고정 확장자 리스트와 커스텀 확장자 리스트
      */
-
-//    @GetMapping("/")
-//    public ExtensionsResponse getExtensions() {
-//        ExtensionsResponse extensionsResponse = extensionService.getExtensions();
-//
-//        return extensionsResponse;
-//    }
     @GetMapping("/")
     public String getExtensions(Model model) {
 
@@ -42,6 +35,12 @@ public class ExtensionController {
         return "index";
     }
 
+//    @GetMapping("/")
+//    public ExtensionsResponse getExtensions() {
+//        ExtensionsResponse extensionsResponse = extensionService.getExtensions();
+//
+//        return extensionsResponse;
+//    }
 
     /**
      * 고정 확장자 체크 or 체크해제
@@ -55,11 +54,7 @@ public class ExtensionController {
     /**
      * 커스텀 확장자 추가 ( 중복 체크, 최대 개수 200개 제한 )
      */
-//    @PostMapping("/save")
-//    public String createCustomExtension(@RequestBody CreateCustomExtensionRequest request) {
-//        extensionService.createCustomExtension(request);
-//        return "완료";
-//    }
+
     @PostMapping("/save")
     public String createCustomExtension(@Valid CreateCustomExtensionRequest request, BindingResult bindingResult, Model model) {
 
@@ -84,24 +79,28 @@ public class ExtensionController {
         }
     }
 
+//    @PostMapping("/save")
+//    public String createCustomExtension(@RequestBody CreateCustomExtensionRequest request) {
+//        extensionService.createCustomExtension(request);
+//        return "완료";
+//    }
+
     /**
      * 커스텀 확장자 삭제
      */
+
+    @PostMapping("/delete")
+    public String removeExtension(RemoveCustomExtensionRequest request, Model model) {
+        extensionService.removeCustomExtension(request);
+        return "redirect:/";
+    }
+}
+
 //    @PostMapping("/delete")
 //    public String removeCustomExtension(@RequestBody RemoveCustomExtensionRequest request) {
 //        extensionService.removeCustomExtension(request);
 //        return "완료";
 //    }
-    @PostMapping("/delete")
-    public String removeExtension(RemoveCustomExtensionRequest request, Model model) {
 
-        extensionService.removeCustomExtension(request);
-//        model.addAttribute("defaultExtensions", extensionService.getDefaultExtensions());
-//        model.addAttribute("customExtensions", extensionService.getCustomExtensions());
-//        model.addAttribute("extensionForm", new ExtensionForm());
-        return "redirect:/";
-    }
-
-}
 
 
