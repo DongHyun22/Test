@@ -62,11 +62,17 @@ public class ExtensionService {
     }
 
     public void createCustomExtension(CreateCustomExtensionRequest request) {
+        // 값이 없을 때
+//        if(request.getCustomExtensionName().equals("")) {
+//            throw new RuntimeException("확장자를 입력해 주세요");
+//        }
+
         // 최대 개수 200이상
         if(customExtensionRepository.count() >= 200) {
             throw new RuntimeException("커스텀 확장자는 최대 200개 까지 추가 가능합니다.");
         }
 
+        // 중복 체크
         if(customExtensionRepository.existsByName(request.getCustomExtensionName())) {
             throw new RuntimeException("이미 존재하는 확장자 입니다.");
         }

@@ -3,18 +3,17 @@ package com.donghyun.Fitness.api.Controller;
 import com.donghyun.Fitness.api.Controller.request.CreateCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.request.RemoveCustomExtensionRequest;
 import com.donghyun.Fitness.api.Controller.request.SelectDefaultExtensionRequest;
-import com.donghyun.Fitness.api.Controller.response.CustomExtensionResponse;
 import com.donghyun.Fitness.api.Service.ExtensionService;
 import com.donghyun.Fitness.config.ExtensionForm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -24,6 +23,7 @@ public class ExtensionController {
 
     /**
      * 고정 확장자와 커스텀 확장자 전체 조회 ( 커스텀 확장자 최신 순 정렬 )
+     *
      * @return 고정 확장자 리스트와 커스텀 확장자 리스트
      */
 
@@ -33,7 +33,6 @@ public class ExtensionController {
 //
 //        return extensionsResponse;
 //    }
-
     @GetMapping("/")
     public String getExtensions(Model model) {
 
@@ -42,7 +41,6 @@ public class ExtensionController {
         model.addAttribute("extensionForm", new ExtensionForm());
         return "index";
     }
-
 
 
     /**
@@ -62,17 +60,28 @@ public class ExtensionController {
 //        extensionService.createCustomExtension(request);
 //        return "완료";
 //    }
-
     @PostMapping("/save")
-    public String createCustomExtension(CreateCustomExtensionRequest request, Model model) {
-//        if (!form.getExtension().isEmpty()) {
-//            customExtensions.add(form.getExtension());
-//        }
-        extensionService.createCustomExtension(request);
-//        model.addAttribute("defaultExtensions", extensionService.getDefaultExtensions());
-//        model.addAttribute("customExtensions", extensionService.getCustomExtensions());
-//        model.addAttribute("extensionForm", new ExtensionForm());
-        return "redirect:/";
+    public String createCustomExtension(@Valid CreateCustomExtensionRequest request, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", bindingResult.getFieldError("customExtensionName").getDefaultMessage());
+            model.addAttribute("defaultExtensions", extensionService.getDefaultExtensions());
+            model.addAttribute("customExtensions", extensionService.getCustomExtensions());
+            model.addAttribute("extensionForm", new ExtensionForm());
+            return "index";
+        }
+
+        try {
+            extensionService.createCustomExtension(request);
+            return "redirect:/";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("defaultExtensions", extensionService.getDefaultExtensions());
+            model.addAttribute("customExtensions", extensionService.getCustomExtensions());
+            model.addAttribute("extensionForm", new ExtensionForm());
+
+            return "index";
+        }
     }
 
     /**
