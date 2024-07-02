@@ -23,10 +23,14 @@ public class Member {
     @Column(name = "member_password")
     private String password;
 
+    @Column(name = "member_name")
+    private String name;
+
     @Builder
-    public Member(Long id, String email, String password) {
+    public Member(Long id, String email, String password, String name) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.name = name;
     }
 }
