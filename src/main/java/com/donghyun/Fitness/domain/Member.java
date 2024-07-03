@@ -26,11 +26,15 @@ public class Member {
     @Column(name = "member_name")
     private String name;
 
+    @Column(name = "member_age")
+    private int age;
+
     @Builder
-    public Member(Long id, String email, String password, String name) {
+    public Member(Long id, String email, String password, String name, int age) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.age = age;
     }
 }
