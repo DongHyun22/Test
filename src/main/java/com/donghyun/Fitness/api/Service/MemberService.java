@@ -20,6 +20,8 @@ public class MemberService {
 
         Member member = memberRepository.findByEmail(request.getMemberEmail());
 
+        // TODO: 2024-07-22 (022) 멤버 null 예외 처리 
+
         if(request.getMemberPassword().equals(member.getPassword())) {
             log.debug("Login_success: {}", request.getMemberEmail());
         }
