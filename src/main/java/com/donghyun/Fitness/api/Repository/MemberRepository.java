@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findByEmail(String email);
+
+    // TODO: 2024-07-23 (023) 존재 여부 함수 만들기 
 }

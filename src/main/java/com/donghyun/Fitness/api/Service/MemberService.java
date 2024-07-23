@@ -7,7 +7,12 @@ import com.donghyun.Fitness.domain.Member;
 import com.donghyun.Fitness.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.Period;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +35,40 @@ public class MemberService {
         log.debug("response:{}", response);
 
         return response;
+    }
+
+    public Long joinMember(JSONObject jsonObject) throws JSONException {
+        // TODO: 2024-07-23 (023) joinMember가 아닌 sns로그인 함수로 이름 변경
+        
+        String email = jsonObject.getString("email");
+//        if(memberRepository.existsByEmail()) {
+//            return memberRepository.findByEmail(email).getId();
+//        }
+        // TODO: 2024-07-23 (023) 기존의 sns로 로그인한 계정이 있을때와 처음 sns로그인 할 때 분리 ** 
+
+        int year = jsonObject.getInt("birthyear");
+        String birth = jsonObject.getString("birthday");
+        int month = Integer.parseInt(birth.substring(0, 2));
+        int day = Integer.parseInt(birth.substring(3, 5));
+        int age = calculateAge(year, month, day);
+        log.debug("age: {}", age);
+
+        Member member = Member.builder()
+                .age(age)
+                .email(email)
+                .name(jsonObject.getString("name"))
+                .password(jsonObject.getString("mobile"))
+                .build();
+        // TODO: 2024-07-23 (023) sns계정 회원가입 다시 구현 
+
+        return memberRepository.save(member).getId();
+    }
+
+    public static int calculateAge(int year, int month, int day) {
+        // TODO: 2024-07-23 (023) 나이 계산 함수 리팩토링 
+        LocalDate currentDate = LocalDate.now();
+        LocalDate birthDate = LocalDate.of(year, month, day); // 생일을 1월 1일로 설정
+        return Period.between(birthDate, currentDate).getYears();
     }
 
 }
