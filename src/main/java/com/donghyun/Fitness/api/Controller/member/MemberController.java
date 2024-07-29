@@ -56,7 +56,6 @@ public class MemberController {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             int responseCode = con.getResponseCode();
-            // TODO: 2024-07-23 (023) 토큰 얻기 위한 통신 리팩토링
 
             if (responseCode == 200) { // 정상 호출
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -91,7 +90,6 @@ public class MemberController {
     }
 
     private String getUserInfo(String access_token) {
-        // TODO: 2024-07-23 (023) 회원정보 얻기 위한 통신 리팩토링
         String header = "Bearer " + access_token; // Bearer 다음에 공백 추가
         try {
             String apiURL = "https://openapi.naver.com/v1/nid/me";
@@ -110,6 +108,7 @@ public class MemberController {
 
             String userInfo = br.readLine();
             log.debug("getUserInfo: {}", userInfo);
+            br.readLine();
 //            String inputLine;
 //            StringBuffer res = new StringBuffer();
 //            while ((inputLine = br.readLine()) != null) {
