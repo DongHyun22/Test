@@ -1,4 +1,4 @@
-package com.donghyun.Fitness.api.Controller.member;
+package com.donghyun.Fitness.api.Controller;
 
 import com.donghyun.Fitness.api.Controller.request.MemberLoginRequest;
 import com.donghyun.Fitness.api.Controller.response.MemberLoginResponse;
