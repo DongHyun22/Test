@@ -5,12 +5,14 @@ import com.donghyun.Fitness.api.Controller.response.MemberLoginResponse;
 import com.donghyun.Fitness.api.Repository.MemberRepository;
 import com.donghyun.Fitness.domain.Member;
 import com.donghyun.Fitness.security.JwtUtil;
+import com.donghyun.Fitness.security.KisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -18,8 +20,11 @@ import java.time.Period;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberService {
-    private final JwtUtil jwtUtil;
+
     private final MemberRepository memberRepository;
+
+    private final JwtUtil jwtUtil;
+    private final KisUtil kisUtil;
 
     public MemberLoginResponse loginMember(MemberLoginRequest request) {
 
@@ -63,6 +68,16 @@ public class MemberService {
 
         return memberRepository.save(member).getId();
     }
+
+    public String kisLoginMember() throws IOException {
+        String kisToken = kisUtil.generateKisToken();
+        return kisToken;
+    }
+
+
+    /*
+        Business Logic
+     */
 
     public static int calculateAge(int year, int month, int day) {
         // TODO: 2024-07-23 (023) 나이 계산 함수 리팩토링 

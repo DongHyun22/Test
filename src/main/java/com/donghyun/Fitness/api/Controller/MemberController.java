@@ -29,13 +29,14 @@ public class MemberController {
     @Value("${CLIENT_SECRET}")
     private String clientSecret;
 
-    public final MemberService memberService;
+    private final MemberService memberService;
 
     @PostMapping("/login")
     public MemberLoginResponse loginMember(@RequestBody MemberLoginRequest request) {
         return memberService.loginMember(request);
     }
 
+    // TODO: 2024-08-01 (001) RestAPI Response 템플릿 설정
     @GetMapping("/naverlogin")
     public Long naverLoginMember(@RequestParam(value = "code") String code, @RequestParam(value = "state") String state) throws IOException, JSONException {
         // naver 로그인 시도 -> 처음이면 로그인, 로그인 이력이 있으면 통과 -> 로그인이 완료되면 콜백주소인 도메인/naverlogin 호출 ( 현재 함수 == 콜백 함수 )
@@ -51,6 +52,7 @@ public class MemberController {
         apiURL += "&state=" + state;
 
         BufferedReader br;
+        // TODO: 2024-08-01 (001) webclient 비동기 방식 사용 
         try {
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -87,6 +89,13 @@ public class MemberController {
 
         // TODO: 2024-07-23 (023) join이 아닌 sns 로그인 함수로 연결
         return memberService.joinMember(userInfo);
+    }
+
+    @GetMapping("/kis")
+    public String kisLoginMember() throws IOException {
+        String kisToken = memberService.kisLoginMember();
+
+        return kisToken;
     }
 
     private String getUserInfo(String access_token) {
